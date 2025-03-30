@@ -1,0 +1,2 @@
+This is another test text file.
+It demonstrates that files with the same extension will be grouped together. 
