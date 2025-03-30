@@ -51,19 +51,24 @@ async def read_folder(source_dir: Path, output_dir: Path) -> None:
 async def main():
     parser = argparse.ArgumentParser(description='Sort files by extension')
     parser.add_argument('source_dir', help='Path to source directory')
-    parser.add_argument('output_dir', help='Path to destination directory')
+    parser.add_argument('output_dir', nargs='?', default='sorted_files', help='Path to destination directory (default: sorted_files)')
     
     args = parser.parse_args()
     
     source_dir = Path(args.source_dir)
     output_dir = Path(args.output_dir)
     
-    # Check if  exists
+    # Check if source directory exists and has files
     if not source_dir.exists():
         print(f"Source directory {source_dir} does not exist")
         return
     
-    # Destination
+    # Check if source directory has any files
+    if not any(source_dir.iterdir()):
+        print(f"Source directory {source_dir} is empty")
+        return
+    
+    # Create output directory if it doesn't exist
     output_dir.mkdir(parents=True, exist_ok=True)
     
     await read_folder(source_dir, output_dir)
